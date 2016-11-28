@@ -7,7 +7,7 @@ module Transport
 
       def interpret(message)
         while token = eat_token(message)
-          if listener.public_methods.include? token.downcase.to_sym
+          if listener.public_methods(false).include? token.downcase.to_sym
             listener.send token.downcase
           end
         end

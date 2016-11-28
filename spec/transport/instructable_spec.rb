@@ -1,5 +1,12 @@
+module Distraction
+  def non_method
+    called.push :non_method
+  end
+end
+
 class InstructableClass
   include Transport::Instructable
+  include Distraction
 
   def move
     called.push :move
@@ -38,5 +45,14 @@ describe InstructableClass do
         expect(obj.called).to eq [:move, :speak]
       end
     end
+
+    context 'when message contains a method name that -- while public -- is from another module' do
+      it 'DOES NOT cause that method to be called' do
+        obj = described_class.new
+        obj.listen_up!('NON_METHOD')
+        expect(obj.called).to be_empty
+      end
+    end
+
   end
 end
