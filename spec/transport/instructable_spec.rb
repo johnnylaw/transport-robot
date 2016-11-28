@@ -2,11 +2,11 @@ class InstructableClass
   include Transport::Instructable
 
   def move
-    called.push(:move)
+    called.push :move
   end
 
   def speak
-    called.push(:speak)
+    called.push :speak
   end
 
   def called
@@ -32,7 +32,7 @@ describe InstructableClass do
     end
 
     context 'when message contains more than one an uppercase command matching a public method name' do
-      it 'causes that method to be called' do
+      it 'causes both of those methods to be called' do
         obj = described_class.new
         obj.listen_up!('MOVE SPEAK')
         expect(obj.called).to eq [:move, :speak]
