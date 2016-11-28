@@ -16,6 +16,10 @@ class InstructableClass
     called.push :speak
   end
 
+  def goto(arg)
+    called.push "GOTO with #{arg}"
+  end
+
   def called
     @called ||= []
   end
@@ -70,5 +74,14 @@ describe InstructableClass do
       end
     end
 
+    context 'when the method expects arguments' do
+      context 'when the method expects ONE argument' do
+        it 'calls that method with the argument' do
+          obj = described_class.new
+          obj.listen_up!('GOTO 123')
+          expect(obj.called).to eq ['GOTO with 123']
+        end
+      end
+    end
   end
 end

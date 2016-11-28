@@ -1,3 +1,5 @@
+require File.expand_path('../possible_command', __FILE__)
+
 module Transport
   module Instructable
     class Interpreter
@@ -6,9 +8,9 @@ module Transport
       end
 
       def interpret(message)
-        while token = eat_token(message)
-          if listener.public_methods(false).include? token.downcase.to_sym
-            listener.send token.downcase
+        while message.length > 0
+          if instruction = parse_next_instruction(message)
+            listener.send *instruction.sendable_list
           end
         end
       end
@@ -18,20 +20,30 @@ module Transport
       attr_reader :listener
 
       def commands
-        @commands ||= listener.public_methods(false).map do |method|
-          method.to_s.upcase
+        @commands ||= begin
+          listener.public_methods(false).map do |method|
+            arity = listener.public_method(method).arity
+            PossibleCommand.new(method, arity)
+          end
         end
       end
 
-      def eat_token(message)
+      def parse_next_instruction(message)
         commands.each do |command|
-          matches = message.match command
+          matches = message.match command.pattern
           if matches
             message.sub! matches[0], ''
-            return command.downcase
+            return Instruction.new(command.name, matches[1..-1])
           end
         end
+        message.sub!(/\A[^\s]*\s?/, '')
         nil
+      end
+
+      class Instruction < Struct.new(:method, :args)
+        def sendable_list
+          [method, args].flatten.compact
+        end
       end
     end
   end
