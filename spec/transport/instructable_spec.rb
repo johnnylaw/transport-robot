@@ -52,6 +52,22 @@ describe InstructableClass do
         obj.listen_up!('NON_METHOD')
         expect(obj.called).to be_empty
       end
+
+      context 'when message later contains something valid' do
+        it 'executes the later command' do
+          obj = described_class.new
+          obj.listen_up!('Poop MOVE')
+          expect(obj.called).to eq [:move]
+        end
+      end
+    end
+
+    context 'when message contains a lowercase command' do
+      it 'DOES NOT recognize the command' do
+        obj = described_class.new
+        obj.listen_up!('move')
+        expect(obj.called).to be_empty
+      end
     end
 
   end

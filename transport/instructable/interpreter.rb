@@ -17,13 +17,21 @@ module Transport
 
       attr_reader :listener
 
-      def eat_token(message)
-        matches = message.match /\A[^\s]+/
-        if matches
-          message.sub! matches[0], ''
-          message.sub! /\A\s/, ''
-          return matches[0]
+      def commands
+        @commands ||= listener.public_methods(false).map do |method|
+          method.to_s.upcase
         end
+      end
+
+      def eat_token(message)
+        commands.each do |command|
+          matches = message.match command
+          if matches
+            message.sub! matches[0], ''
+            return command.downcase
+          end
+        end
+        nil
       end
     end
   end
