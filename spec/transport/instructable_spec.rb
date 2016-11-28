@@ -20,6 +20,10 @@ class InstructableClass
     called.push "GOTO with #{arg}"
   end
 
+  def jump(x, y, direction)
+    called.push "JUMP with #{x},#{y},#{direction}"
+  end
+
   def called
     @called ||= []
   end
@@ -82,6 +86,15 @@ describe InstructableClass do
           expect(obj.called).to eq ['GOTO with 123']
         end
       end
+
+      context 'when the method expects a PLETHORA of arguments' do
+        it 'calls that method with the argument' do
+          obj = described_class.new
+          obj.listen_up!('JUMP 123,44,UP')
+          expect(obj.called).to eq ['JUMP with 123,44,UP']
+        end
+      end
+
     end
   end
 end
