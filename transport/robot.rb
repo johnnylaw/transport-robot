@@ -8,12 +8,15 @@ module Transport
     end
 
     def place(x, y, dir)
-      direction.set_by_name(dir)
-      board.grant_placement(self, x, y)
+      if direction.set_by_name(dir)
+        board.grant_placement(self, x, y)
+      end
     end
 
     def report
-      puts "#{board.position_description(self)},#{direction}"
+      if board.has? self
+        puts "#{board.position_description(self)},#{direction}"
+      end
     end
 
     private
