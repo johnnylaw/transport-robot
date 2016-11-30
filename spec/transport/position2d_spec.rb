@@ -21,5 +21,14 @@ describe Transport::Position2D do
         expect(position[1]).to eq y.to_i
       end
     end
+
+    context 'when either x or y cannot be cast into integers' do
+      let(:x) { 'asdf' }
+      let(:y) { 7 }
+
+      it 'raises an ArgumentError' do
+        expect(-> { described_class[x, y] }).to raise_error(ArgumentError, 'invalid value for Integer(): "asdf"')
+      end
+    end
   end
 end
