@@ -5,8 +5,14 @@ module Transport
     end
 
     def grant_placement(player, *components)
-      player_positions[player] = position_class[*components.flatten]
-      true
+      position = position_class[*components.flatten]
+      if on_board? position
+        player_positions[player] = position
+        return true
+      end
+      false
+    rescue ArgumentError
+      false
     end
 
     def position_description(player)
@@ -14,6 +20,13 @@ module Transport
     end
 
     private
+
+    def on_board?(position)
+      position.each.with_index do |d, i|
+        return false unless d.between?(0, max_corner[i])
+      end
+      return true
+    end
 
     attr_reader :max_corner
 
