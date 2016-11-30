@@ -39,4 +39,17 @@ describe Transport::Position2D do
       end
     end
   end
+
+  describe 'conditional initializer Transport.Position2D(x, y)' do
+    context 'when valid arguments given for x and y' do
+      let(:x) { 5 }
+      let(:y) { 7 }
+
+      it 'returns a Position2D with expected components' do
+        position = Transport.Position2D(x, y)
+        expect(position[0]).to eq x
+        expect(position[1]).to eq y
+      end
+    end
+  end
 end

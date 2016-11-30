@@ -6,4 +6,8 @@ module Transport
       super(Integer(x), Integer(y))
     end
   end
+
+  def self.Position2D(*args)
+    Position2D[*args]
+  end
 end
