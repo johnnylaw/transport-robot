@@ -1,26 +1,23 @@
-class PlacementClass
-  def initialize(direction, *args)
-    raise ArgumentError if direction == :error
-    @vector = args
+require 'matrix'
+class Position3D < Vector
+  def self.[](x, y, z)
+    super
   end
-
-  def on_axis(num)
-    @vector[num]
-  end
-
 end
 
 describe Transport::Board do
-  let(:dimensions) { [4, 6] }
-  let(:placement_class) { PlacementClass }
+  context 'when board is 3-dimensional with max coordinates x=4, y=4, z=10' do
+    let(:board) { described_class.new(Position3D[4, 4, 10]) }
 
-  describe '#placement_for_coordinates' do
-    context 'when both coordinates are inside the board' do
-      let(:coordinates) { [4, 7] }
+    describe '#grant_placement(player, *coordinates)' do
+      context 'when coordinates are within the bounds' do
+        let(:coordinates) { [1, 2, 3] }
 
-      it 'returns nil' do
-        placement = described_class.new(dimensions, placement_class).placement_for_coordinates('some direction', *coordinates)
-        expect(placement).to be_a PlacementClass
+        it 'returns true and can report on position through #position_description(player)' do
+          player = Object.new
+          expect(board.grant_placement(player, coordinates)).to eq true
+          expect(board.position_description(player)).to eq '1,2,3'
+        end
       end
     end
   end
