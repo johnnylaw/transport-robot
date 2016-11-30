@@ -72,6 +72,10 @@ describe Transport::CardinalDirections do
           expect { directions.change(:left) }.to change { directions.to_s }.to('NORTH')
           expect { directions.change(:left) }.to change { directions.to_s }.to('WEST')
         end
+
+        it 'ignores weird commands' do
+          expect { directions.change(:up) }.to_not change { directions.to_s }
+        end
       end
     end
   end
