@@ -1,3 +1,4 @@
+require 'pry'
 require 'matrix'
 class Position3D < Vector
   def self.[](x, y, z)
@@ -46,6 +47,26 @@ describe Transport::Board do
           player = Object.new
           expect(board.grant_placement(player, *coordinates)).to eq false
           expect(board.position_description(player)).to eq ''
+        end
+      end
+    end
+
+    context 'when player has been added' do
+      let(:player) do
+        p = Object.new
+        board.grant_placement(p, 1, 2, 3)
+        p
+      end
+
+      describe '#remove(player)' do
+        it 'removes the player' do
+          expect { board.remove(player) }.to change { board.position_description(player) }.from('1,2,3').to('')
+        end
+      end
+
+      describe '#has(player)' do
+        it do
+          expect(board.has? player).to eq true
         end
       end
     end

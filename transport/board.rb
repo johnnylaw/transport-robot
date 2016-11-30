@@ -19,6 +19,14 @@ module Transport
       player_positions[player].to_a.join(',')
     end
 
+    def remove(player)
+      player_positions.delete(player)
+    end
+
+    def has?(player)
+      player_positions.has_key?(player)
+    end
+
     private
 
     def on_board?(position)
