@@ -3,11 +3,14 @@ module Transport
     class Direction < Struct.new(:name, :coordinates); end
 
     def set_by_name(name)
-
+      self.index = direction_options.index do |option|
+        option.name == name
+      end
     end
 
     def coordinates
-      direction_options.first.coordinates
+      current = direction_options[index] if index
+      current && current.coordinates
     end
 
     def change(*args)
@@ -21,5 +24,9 @@ module Transport
     def make_change
       raise NotImplementedError, 'Subclasses of Directions must implement #make_change method'
     end
+
+    private
+
+    attr_accessor :index
   end
 end

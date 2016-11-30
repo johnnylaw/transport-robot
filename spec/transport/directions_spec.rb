@@ -43,11 +43,27 @@ describe ForwardBack do
     end
 
     describe '#coordinates' do
+      context 'when name is not a name of any of the options' do
+        let(:name) { 'UP' }
+
+        it 'returns nil' do
+          expect(directions.coordinates).to be_nil
+        end
+      end
+
       context 'when name is name of first direction_option' do
         let(:name) { 'FORWARD' }
 
         it 'returns the coordinates of the direction with that name' do
           expect(directions.coordinates).to eq [1]
+        end
+      end
+
+      context 'when name is name of first direction_option' do
+        let(:name) { 'BACK' }
+
+        it 'returns the coordinates of the direction with that name' do
+          expect(directions.coordinates).to eq [-1]
         end
       end
     end
