@@ -30,5 +30,13 @@ describe Transport::Position2D do
         expect(-> { described_class[x, y] }).to raise_error(ArgumentError, 'invalid value for Integer(): "asdf"')
       end
     end
+
+    context 'when more than two arguments are given' do
+      let(:args) { [1, 2, 3] }
+
+      it 'raises an ArgumentError' do
+        expect(-> { described_class[*args] }).to raise_error(ArgumentError, 'wrong number of arguments (3 for 2)')
+      end
+    end
   end
 end

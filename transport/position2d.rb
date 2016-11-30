@@ -2,8 +2,8 @@ require 'matrix'
 
 module Transport
   class Position2D < Vector
-    def self.[](*args)
-      super(*args.map { |a| Integer(a) })
+    def self.[](x, y)
+      super(Integer(x), Integer(y))
     end
   end
 end
