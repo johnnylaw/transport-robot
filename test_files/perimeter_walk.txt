@@ -1,0 +1,9 @@
+PLACE 3,3,EAST MOVE REPORT                   # 4,3,EAST
+MOVE REPORT                                  # 4,3,EAST
+RIGHT MOVE MOVE MOVE REPORT                  # 4,0,SOUTH
+MOVE REPORT                                  # 4,0,SOUTH (at edge)
+RIGHT MOVE MOVE MOVE MOVE REPORT             # 0,0,WEST
+MOVE REPORT                                  # 0,0,WEST (at edge)
+RIGHT MOVE MOVE MOVE MOVE REPORT             # 0,4,NORTH
+MOVE REPORT                                  # 0,4,NORTH (at edge)
+RIGHT MOVE MOVE MOVE MOVE REPORT             # 4,4,EAST

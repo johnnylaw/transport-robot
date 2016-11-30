@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+require File.expand_path('../../transport', __FILE__)
+
+board = Transport::Board.new(Transport::Position2D[4, 4])
+robot = Transport::Robot.new(board)
+
+if ARGV.count > 0
+  File.open(File.expand_path(ARGV.first, Dir.pwd), 'r').each do |line|
+    robot.listen_up! line
+  end
+else
+  puts "I am at your service! Tell me what to do!"
+  robot.listen_up! gets
+end
