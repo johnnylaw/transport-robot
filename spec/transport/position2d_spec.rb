@@ -51,5 +51,14 @@ describe Transport::Position2D do
         expect(position[1]).to eq y
       end
     end
+
+    context 'when known invalid argument given for x or y' do
+      let(:x) { 7 }
+      let(:y) { 'asdf' }
+
+      it 'returns nil' do
+        expect(Transport.Position2D(x, y)).to be_nil
+      end
+    end
   end
 end

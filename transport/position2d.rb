@@ -9,5 +9,6 @@ module Transport
 
   def self.Position2D(*args)
     Position2D[*args]
+  rescue ArgumentError
   end
 end
