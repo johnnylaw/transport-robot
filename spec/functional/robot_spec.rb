@@ -64,5 +64,40 @@ describe Transport::Robot do
       end
     end
 
+    context 'when robot walks into NE corner reporting on the way' do
+      let(:message) do
+        msg = 'PLACE 0,0,NORTH MOVE RIGHT MOVE REPORT '
+        msg += 'LEFT MOVE RIGHT MOVE REPORT '
+        msg += 'LEFT MOVE RIGHT MOVE REPORT '
+        msg += 'LEFT MOVE RIGHT MOVE REPORT '
+      end
+      let(:expected) { "1,1,EAST\n2,2,EAST\n3,3,EAST\n4,4,EAST\n" }
+
+      it do
+        expect { robot.listen_up!(message) }.to output(expected).to_stdout
+        expect { robot.listen_up!('MOVE REPORT') }.to output("4,4,EAST\n").to_stdout
+      end
+    end
+
+    context 'when robot walks the perimeter attempting to walk past corner each time' do
+      let(:message) do
+        msg = 'PLACE 0,0,NORTH REPORT '
+        msg += 'MOVE REPORT MOVE REPORT MOVE REPORT MOVE REPORT MOVE REPORT RIGHT '
+        msg += 'MOVE REPORT MOVE REPORT MOVE REPORT MOVE REPORT MOVE REPORT RIGHT '
+        msg += 'MOVE REPORT MOVE REPORT MOVE REPORT MOVE REPORT MOVE REPORT RIGHT '
+        msg += 'MOVE REPORT MOVE REPORT MOVE REPORT MOVE REPORT MOVE REPORT'
+      end
+      let(:expected) do
+        exp = "0,0,NORTH\n0,1,NORTH\n0,2,NORTH\n0,3,NORTH\n0,4,NORTH\n0,4,NORTH\n"
+        exp += "1,4,EAST\n2,4,EAST\n3,4,EAST\n4,4,EAST\n4,4,EAST\n"
+        exp += "4,3,SOUTH\n4,2,SOUTH\n4,1,SOUTH\n4,0,SOUTH\n4,0,SOUTH\n"
+        exp += "3,0,WEST\n2,0,WEST\n1,0,WEST\n0,0,WEST\n0,0,WEST\n"
+      end
+
+      it do
+        expect { robot.listen_up!(message) }.to output(expected).to_stdout
+      end
+    end
+
   end
 end
