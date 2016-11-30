@@ -40,6 +40,12 @@ describe Transport::Position2D do
     end
   end
 
+  describe '#to_s' do
+    it 'gives the two values comma separated' do
+      expect(described_class[5, 7].to_s).to eq '5,7'
+    end
+  end
+
   describe 'conditional initializer Transport.Position2D(x, y)' do
     context 'when valid arguments given for x and y' do
       let(:x) { 5 }

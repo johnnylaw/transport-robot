@@ -5,6 +5,10 @@ module Transport
     def self.[](x, y)
       super(Integer(x), Integer(y))
     end
+
+    def to_s
+      to_a.join(',')
+    end
   end
 
   def self.Position2D(*args)
