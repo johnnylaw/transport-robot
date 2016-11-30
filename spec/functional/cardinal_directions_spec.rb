@@ -59,6 +59,20 @@ describe Transport::CardinalDirections do
           expect(directions.coordinates).to eq [-1, 0]
         end
       end
+
+      describe '#change' do
+        it 'rotates all the way around in both directions' do
+          expect { directions.change(:right) }.to change { directions.to_s }.to('NORTH')
+          expect { directions.change(:right) }.to change { directions.to_s }.to('EAST')
+          expect { directions.change(:right) }.to change { directions.to_s }.to('SOUTH')
+          expect { directions.change(:right) }.to change { directions.to_s }.to('WEST')
+
+          expect { directions.change(:left) }.to change { directions.to_s }.to('SOUTH')
+          expect { directions.change(:left) }.to change { directions.to_s }.to('EAST')
+          expect { directions.change(:left) }.to change { directions.to_s }.to('NORTH')
+          expect { directions.change(:left) }.to change { directions.to_s }.to('WEST')
+        end
+      end
     end
   end
 end

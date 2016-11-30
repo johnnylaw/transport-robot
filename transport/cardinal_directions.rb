@@ -15,7 +15,9 @@ module Transport
       super || [0, 0]
     end
 
-    def make_changes(directive)
+    def make_change(directive)
+      delta = { left: -1, right: 1 }[directive]
+      self.index = (index + delta) % 4
     end
   end
 end
