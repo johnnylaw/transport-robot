@@ -69,6 +69,37 @@ describe Transport::Board do
           expect(board.has? player).to eq true
         end
       end
+
+      describe '#grant_advancement(player, *components)' do
+        context 'when advancement is to somewhere on the board' do
+          let(:advancement_coordinates) { [0, 0, 1] }
+
+          it 'grants advancement (changes player position)' do
+            expect { board.grant_advancement(player, advancement_coordinates) }.to change { board.position_description(player) }.from('1,2,3').to('1,2,4')
+          end
+        end
+
+        context 'when advancement is to somewhere outlandish' do
+          let(:advancement_coordinates) { [0, 0, 20] }
+
+          it 'DOES NOT change player position' do
+            expect { board.grant_advancement(player, advancement_coordinates) }.to_not change { board.position_description(player) }
+          end
+        end
+      end
+    end
+
+    context 'when player has NOT been added' do
+      describe '#grant_advancement(player, *components)' do
+        context 'when advancement is to somewhere on the board' do
+          let(:advancement_coordinates) { [0, 0, 1] }
+
+          it 'DOES NOT CHANGE anything' do
+            player = Object.new
+            expect { board.grant_advancement(player, advancement_coordinates) }.to_not change { board.position_description(player) }.from('')
+          end
+        end
+      end
     end
   end
 end

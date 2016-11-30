@@ -15,6 +15,13 @@ module Transport
       false
     end
 
+    def grant_advancement(player, *coordinates)
+      if has? player
+        proposed = player_positions[player] + position_class[*coordinates.flatten]
+        player_positions[player] = proposed if on_board?(proposed)
+      end
+    end
+
     def position_description(player)
       player_positions[player].to_a.join(',')
     end
