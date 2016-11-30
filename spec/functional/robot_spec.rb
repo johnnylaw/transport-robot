@@ -55,5 +55,14 @@ describe Transport::Robot do
       end
     end
 
+    context 'when placement instruction followed by MOVE and LEFT followed by REPORT' do
+      let(:message) { 'PLACE 0,0,NORTH MOVE LEFT REPORT' }
+      let(:expected) { "0,1,WEST\n" }
+
+      it do
+        expect { robot.listen_up!(message) }.to output(expected).to_stdout
+      end
+    end
+
   end
 end

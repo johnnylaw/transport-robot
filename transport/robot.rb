@@ -21,6 +21,10 @@ module Transport
       direction.change :right
     end
 
+    def left
+      direction.change :left
+    end
+
     def report
       if board.has? self
         puts "#{board.position_description(self)},#{direction}"
