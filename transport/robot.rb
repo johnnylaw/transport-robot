@@ -13,6 +13,10 @@ module Transport
       end
     end
 
+    def move
+      board.grant_advancement(self, direction.coordinates)
+    end
+
     def report
       if board.has? self
         puts "#{board.position_description(self)},#{direction}"
