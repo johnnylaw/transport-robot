@@ -1,6 +1,3 @@
-class PoorlyImplementedDirectionsSubclass < Transport::Directions
-end
-
 class ForwardBack < Transport::Directions
   def direction_options
     @direction_options ||= [
@@ -12,24 +9,6 @@ class ForwardBack < Transport::Directions
   def make_change(directive)
     if directive == :about_face
       self.index = (index + 1) % 2
-    end
-  end
-end
-
-describe PoorlyImplementedDirectionsSubclass do
-  describe '#direction_options' do
-    it 'raises an error' do
-      expect(-> { described_class.new.direction_options }).to raise_error(
-        NotImplementedError, 'Subclasses of Directions must implement #direction_options method'
-      )
-    end
-  end
-
-  describe '#change' do
-    it 'raises an error' do
-      expect(-> { described_class.new.change }).to raise_error(
-        NotImplementedError, 'Subclasses of Directions must implement #make_change method'
-      )
     end
   end
 end
@@ -56,6 +35,12 @@ describe ForwardBack do
           expect(directions.to_s).to eq ''
         end
       end
+
+      describe '#change() called with directive it recognizes' do
+        it 'does nothing to the direction' do
+          expect(-> { directions.change(:about_face) }).to_not change {directions.coordinates}
+        end
+      end
     end
 
     context 'when name is name of first direction_option' do
@@ -70,6 +55,12 @@ describe ForwardBack do
       describe '#to_s' do
         it 'returns the name' do
           expect(directions.to_s).to eq 'FORWARD'
+        end
+      end
+
+      describe '#change() called with recognizable directive' do
+        it 'changes direction' do
+          expect { directions.change(:about_face) }.to change {directions.coordinates}
         end
       end
     end

@@ -9,17 +9,15 @@ module Transport
     end
 
     def coordinates
-      current = direction_options[index] if index
       current && current.coordinates
     end
 
     def to_s
-      current = direction_options[index] if index
       current && current.name || ''
     end
 
     def change(*args)
-      make_change(*args)
+      make_change(*args) if index
     end
 
     def direction_options
@@ -31,6 +29,10 @@ module Transport
     end
 
     private
+
+    def current
+      index && direction_options[index]
+    end
 
     attr_accessor :index
   end
