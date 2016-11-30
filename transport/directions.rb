@@ -13,6 +13,11 @@ module Transport
       current && current.coordinates
     end
 
+    def to_s
+      current = direction_options[index] if index
+      current && current.name || ''
+    end
+
     def change(*args)
       make_change(*args)
     end
