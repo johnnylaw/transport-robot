@@ -14,6 +14,24 @@ class ForwardBack < Transport::Directions
 end
 
 describe ForwardBack do
+  describe '#set_by_name(name)' do
+    context 'when name is not one of the choices' do
+      let(:name) { 'NORTH' }
+
+      it 'returns false' do
+        expect(described_class.new.set_by_name(name)).to eq false
+      end
+    end
+
+    context 'when name is one of the choices' do
+      let(:name) { 'FORWARD' }
+
+      it 'returns true' do
+        expect(described_class.new.set_by_name(name)).to eq true
+      end
+    end
+  end
+
   context 'when #set_by_name(name) has been called with a name of one of the directions' do
     let(:directions) do
       result = described_class.new
